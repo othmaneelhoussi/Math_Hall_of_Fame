@@ -1,0 +1,35 @@
+<!---Othmane El Houssi (oe2196)-->
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h2>{{ mathematician.name }} ({{ mathematician.birth_year }})</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename=mathematician.image) }}" alt="{{ mathematician.name }}" class="img-fluid">
+            </div>
+            <div class="col-md-8">
+                <p><strong>Biography:</strong> {{ mathematician.small_bio }}</p>
+                <p><strong>Contributions:</strong></p>
+                <ul>
+                    {% for contribution in mathematician.contributions %}
+                        <li>{{ contribution }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <h3>Similar Mathematicians:</h3>
+        <div class="row">
+            {% for similar in similar_maths %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ url_for('static', filename=similar.image) }}" alt="{{ similar.name }}" class="card-img-top">
+                        <h5 class="card-title">{{ similar.name }} ({{ similar.birth_year }})</h5>
+                        <a href="{{ url_for('math_details', id=similar.id) }}" class="btn btn-primary">View Details</a>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

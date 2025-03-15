@@ -1,0 +1,22 @@
+<!---Othmane El Houssi (oe2196)-->
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h3>Showing Results for “{{ keywords }}”</h3>
+        <div id="resultsList">
+            {% if results %}
+                {% for item in results %}
+                    <div class="result-item">
+                        <a href="/view/{{ item.id }}">
+                            <h4>{{ item.name }}</h4>
+                        </a>
+                    </div>
+                    <br>
+                {% endfor %}
+            {% else %}
+                <p>No results found</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

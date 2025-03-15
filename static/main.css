@@ -1,0 +1,44 @@
+/*Othmane El Houssi (oe2196)*/
+#welcome-msg{
+    font-size: 25px;
+    color: rgb(58, 58, 58);
+    padding: 50px;
+}
+#banner{
+    width: 100vw;
+    height: 700px;
+    background-image: url(images/gray-wall-textures-background.jpg);
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.flashcard {
+    background-color: rgb(252, 252, 252); /* Bootstrap primary blue */
+    color: black;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    max-width: 500px;
+    transition: 0.3s;
+}
+.flashcard.mx-auto{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.flashcard a{
+    color: black;
+    text-decoration: bold;
+}
+.flashcard img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+.next-btn {
+    margin-top: 10px;
+}
+.card-img-top {
+    width: 50%;
+}
