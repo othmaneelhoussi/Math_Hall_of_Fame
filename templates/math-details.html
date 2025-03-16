@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-8">
                 <p><strong>Biography:</strong> {{ mathematician.small_bio }}</p>
-                <p><strong>Contributions:</strong></p>
+                <p class="spacemore"><strong>Contributions:</strong></p>
                 <ul>
                     {% for contribution in mathematician.contributions %}
                         <li>{{ contribution }}</li>
@@ -18,18 +18,22 @@
                 </ul>
             </div>
         </div>
-
-        <h3>Similar Mathematicians:</h3>
+        
+        <h3 class="spacemore">Similar Mathematicians:</h3>
         <div class="row">
             {% for similar in similar_maths %}
                 <div class="col-md-3">
                     <div class="card">
-                        <img src="{{ url_for('static', filename=similar.image) }}" alt="{{ similar.name }}" class="card-img-top">
-                        <h5 class="card-title">{{ similar.name }} ({{ similar.birth_year }})</h5>
-                        <a href="{{ url_for('math_details', id=similar.id) }}" class="btn btn-primary">View Details</a>
-                </div>
+                        <a href="{{ url_for('math_details', id=similar.id) }}"><img src="{{ url_for('static', filename=similar.image) }}" alt="{{ similar.name }}" class="card-img-top"></a>
+                        <a href="{{ url_for('math_details', id=similar.id) }}"><h5 class="card-title">{{ similar.name }} ({{ similar.birth_year }})</h5></a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
+
+        <a href="{{ url_for('edit_math', id=mathematician.id) }}" class="btn btn-light spacemore">
+            Edit
+        </a>
+        
     </div>
 {% endblock %}

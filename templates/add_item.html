@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id="add-container" class="container mt-5">
+        <h2 class="text-center mb-4">Add to the Hall of Fame</h2>
+        <div id="successful-msg"></div>
+        <form id="add-entry-form" action="/add" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image Upload</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="birth_year" class="form-label">Birth Year</label>
+                <input type="text" class="form-control" id="birth_year" name="birth_year" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="small_bio" class="form-label">Description</label>
+                <textarea class="form-control" id="small_bio" name="small_bio" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="contributions" class="form-label">Contributions (Comma Separated)</label>
+                <input type="text" class="form-control" id="contributions" name="contributions" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-pink">Add Mathematician</button>
+            </div>
+        </form>
+
+        <div id="error-messages" class="mt-3"></div>
+    </div>
+{% endblock %}

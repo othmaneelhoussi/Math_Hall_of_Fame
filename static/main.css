@@ -60,4 +60,31 @@
 
 #details-container{
     margin: 40px 200px;
+    max-width: fit-content;
+}
+#add-container{
+    width: 500px;
+}
+
+
+.color-red{
+    color:red;
+}
+.color-green{
+    color:green;
+    font-weight: bold;
+}
+.spacemore{
+    margin-top: 40px;
+}
+.card{
+    align-items: center;
+    max-width: fit-content;
+}
+.card a{
+    color: black;
+}
+.card img{
+    width: 200px;
+    height: 250px;
 }

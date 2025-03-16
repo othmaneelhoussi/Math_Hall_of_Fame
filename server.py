@@ -1,10 +1,18 @@
 # OTHMANE EL HOUSSI
-import random
-from flask import Flask
-from flask import render_template
-from flask import Response, request, jsonify
-import re
+import random, re, os
+from flask import Flask, render_template, Response, request, jsonify, redirect, url_for
+from werkzeug.utils import secure_filename
+
 app = Flask(__name__)
+
+UPLOAD_FOLDER = 'static/images'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 mathematicians = [
   {
@@ -160,6 +168,57 @@ def math_details(id):
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"error": "An error occurred while processing the request."}), 500
+
+
+@app.route('/add', methods=['GET','POST'])
+def add_mathematician():
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        birth_year = request.form.get('birth_year', '').strip()
+        small_bio = request.form.get('small_bio', '').strip()
+        contributions = request.form.get('contributions', '').strip().split(',')
+
+        image = request.files.get('image')
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image.save(filepath)
+        else:
+            filepath = 'static/images/euclid.jpg'
+
+        new_id = str(len(mathematicians))
+
+        new_mathematician = {
+            "id": new_id,
+            "name": name,
+            "image": filepath[6:],  # Adjusted path
+            "birth_year": birth_year,
+            "small_bio": small_bio,
+            "contributions": [c.strip() for c in contributions],
+            "similar_maths_ids": []
+        }
+
+        mathematicians.append(new_mathematician)
+
+        return jsonify({"successful": 1, "id": new_id})  
+
+    return render_template('add_item.html')
+
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_math(id):
+    mathematician = mathematicians[id]
+    if not mathematician:
+        return "Mathematician not found", 404
+
+    if request.method == 'POST':
+        mathematician['name'] = request.form['name']
+        mathematician['birth_year'] = request.form['birth_year']
+        mathematician['small_bio'] = request.form['small_bio']
+        mathematician['contributions'] = request.form['contributions'].split(',')
+
+        return redirect(url_for('math_details', id=id))
+
+    return render_template("edit.html", mathematician=mathematician)
 
 
 if __name__ == '__main__':

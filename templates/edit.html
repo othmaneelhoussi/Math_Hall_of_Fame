@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Edit Mathematician</h2>
+        <form id="edit-form" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ mathematician.name }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="birth_year" class="form-label">Birth Year:</label>
+                <input type="text" class="form-control" id="birth_year" name="birth_year" value="{{ mathematician.birth_year }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="small_bio" class="form-label">Biography:</label>
+                <textarea class="form-control" id="small_bio" name="small_bio" required>{{ mathematician.small_bio }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="contributions" class="form-label">Contributions (comma-separated):</label>
+                <input type="text" class="form-control" id="contributions" name="contributions" 
+                       value="{{ ', '.join(mathematician.contributions) }}" required>
+            </div>
+
+
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="button" class="btn btn-secondary" id="discard-button">Discard Changes</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("discard-button").addEventListener("click", function() {
+            if (confirm("Are you sure you want to discard changes?")) {
+                window.location.href = "{{ url_for('math_details', id=mathematician.id) }}";
+            }
+        });
+    </script>
+{% endblock %}
