@@ -1,6 +1,5 @@
 /* Othmane El Houssi (oe2196)*/
 
-let currentFlashid = 0;
 let randomMath = [];
 
 function loadFlashcards() {
@@ -11,7 +10,7 @@ function loadFlashcards() {
         success: function(data) {
             randomMath = data["random"];
             if (randomMath.length > 0) {
-                currentFlashcard();
+                currentFlashcards();
             }
         },
         error: function () {
@@ -21,33 +20,34 @@ function loadFlashcards() {
 }
 
 
-function currentFlashcard() {
+function currentFlashcards() {
     let container = $("#flashcard-container");
     container.empty();
     if (randomMath.length === 0) {
-        container.append("<p>No flashcards available.</p>");
+        container.append("<p> No flashcards available.</p>");
         return;
     }
-    let math = randomMath[currentFlashid];
-    let card = `
-        <div class="flashcard mb-3">
-            <img src="/static/${math.image}" alt="${math.name}">
-            <div>
-                <h4><a href="/view/${math.id}">${math.name} (${math.birth_year})<a></h4>
-                <p>${math.small_bio}</p>
-            </div>
-        </div>`;
-    container.append(card);
+    randomMath.forEach(math => {
+        let truncate_des = math.small_bio.length > 70 ? math.small_bio.substring(0, 70) + "..." : math.small_bio;
+        
+        let card = `
+            <div class="flashcard mb-3 col-4">
+                <a href="/view/${math.id}"><img src="/static/${math.image}" alt="${math.name}"></a>
+                <div>
+                    <h4><a href="/view/${math.id}">${math.name}</a></h4>
+                    <p class="truncate">${truncate_des}</p>
+                </div>
+            </div>`;
+        
+        container.append(card);
+    });
 }
 
 $(document).ready(function () {
     loadFlashcards();
     $("#searchInput").focus();
 
-    $("#next-flashcard").click(function () {
-        currentFlashid = (currentFlashid + 1) % randomMath.length;
-        currentFlashcard();
-    });
+    currentFlashcards();
     
     $("#searchForm").submit(function (event) {
         event.preventDefault();  // Prevent the default form submission

@@ -3,6 +3,7 @@ import random
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify
+import re
 app = Flask(__name__)
 
 mathematicians = [
@@ -108,14 +109,38 @@ def get_random_mathematicians():
     random_selection = random.sample(mathematicians, 3)
     return jsonify(random = random_selection)
 
+import re
+
 @app.route('/search/<keywords>', methods=['GET'])
 def search(keywords):
     try:
         keywords = keywords.strip()
         if not keywords:
             return jsonify({"error": "Search term cannot be empty"}), 400
-        matching_items = [item for item in mathematicians if keywords.lower() in item["name"].lower()]
-        return render_template('search_results.html', results=matching_items, keywords=keywords)
+
+        #ensure that the search term is escaped to prevent issues in the regex
+        escaped_keywords = re.escape(keywords.lower())
+
+        #function to wrap matched keywords in <b> tags
+        def highlight_text(text):
+            return re.sub(r'(' + escaped_keywords + r')', r'[<b>\1</b>]', text, flags=re.IGNORECASE)
+
+        matching_items = [
+            item for item in mathematicians
+            if (keywords.lower() in str(item.get("name", "")).lower() or
+                keywords.lower() in str(item.get("small_bio", "")).lower() or
+                any(keywords.lower() in str(contribution).lower() for contribution in item.get("contributions", [])))
+        ]
+
+        #highlight matched text in name, bio, and contributions
+        for item in matching_items:
+            item["new_name"] = highlight_text(item.get("name", ""))
+            item["new_small_bio"] = highlight_text(item.get("small_bio", ""))
+            item["new_contributions"] = [
+                highlight_text(contribution) for contribution in item.get("contributions", [])
+            ]
+
+        return render_template('search_results.html', results=matching_items, keywords=keywords, number=len(matching_items))
 
     except Exception as e:
         print(f"Error: {e}")

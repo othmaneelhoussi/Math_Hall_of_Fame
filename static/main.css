@@ -3,6 +3,17 @@
     font-size: 25px;
     color: rgb(58, 58, 58);
     padding: 50px;
+    display: block;
+}
+.color-text{
+    color:rgb(52, 82, 137);
+}
+.color-text-accent{
+    color:rgb(234, 174, 212);
+}
+.btn-pink{
+    background-color:rgb(234, 174, 212);
+    margin-left: 10px;
 }
 #banner{
     width: 100vw;
@@ -12,33 +23,41 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+#flashcard-container{
+    margin: 0 50px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 16px;
+}
 .flashcard {
-    background-color: rgb(252, 252, 252); /* Bootstrap primary blue */
+    background-color: rgb(252, 252, 252);
     color: black;
     border-radius: 15px;
-    padding: 10px;
+    padding: 20px;
     display: flex;
-    align-items: center;
-    max-width: 500px;
-    transition: 0.3s;
-}
-.flashcard.mx-auto{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 .flashcard a{
     color: black;
     text-decoration: bold;
 }
 .flashcard img {
-    width: 200px;
-    height: 300px;
+    width: 120px;
+    height: 180px;
     object-fit: cover;
     border-radius: 10px;
     margin-right: 15px;
 }
-.next-btn {
-    margin-top: 10px;
-}
 .card-img-top {
     width: 50%;
+    margin: auto;
+}
+
+#search-results-container{
+    margin: 40px 200px;
+}
+
+#details-container{
+    margin: 40px 200px;
 }

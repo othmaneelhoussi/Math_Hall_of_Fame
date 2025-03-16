@@ -2,20 +2,29 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="container-fluid">
+    <div id="search-results-container" class="container-fluid">
         <h3>Showing Results for “{{ keywords }}”</h3>
+        <h4> <span class="color-text">{{ number }}</span> Results Found</h4>
         <div id="resultsList">
             {% if results %}
                 {% for item in results %}
                     <div class="result-item">
                         <a href="/view/{{ item.id }}">
-                            <h4>{{ item.name }}</h4>
+                            <h4 class="color-text">{{ item.new_name|safe }}</h4>
                         </a>
+                        <p>{{ item.new_small_bio|safe }}</p>
+                        {% if item.new_contributions %}
+                            <ul>
+                                {% for contribution in item.new_contributions %}
+                                    <li>{{ contribution|safe }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     </div>
                     <br>
                 {% endfor %}
             {% else %}
-                <p>No results found</p>
+                <p class="color-text">No results found</p>
             {% endif %}
         </div>
     </div>
